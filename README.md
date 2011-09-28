@@ -7,8 +7,8 @@ Configuration
 -------------
 Update the following paths to their respective locations:
 
-        YUI_COMPRESSOR_PATH = "~/Desktop/yuicompressor-2.4.6.jar"
-        HTML_COMPRESSOR_PATH = "~/Desktop/htmlcompressor-1.5.2.jar"
+        YUI_COMPRESSOR_PATH = "/PATH/TO/yuicompressor-2.4.6.jar"
+        HTML_COMPRESSOR_PATH = "/PATH/TO/htmlcompressor-1.5.2.jar"
 
 Wrap any external CSS and JS with the following comment tags:
 
@@ -26,6 +26,7 @@ Optionally, symlink to your /usr/local/bin directory:
     
 Usage
 -----
-* ./shrink input_file.html output_file.html 
-* If no output file is given, it will write to compressed.html
+        ./shrink input_file.html output_file.html 
+        
+If no output file is given, it will write to compressed.html
 
