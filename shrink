@@ -1,0 +1,62 @@
+#!/usr/bin/ruby
+  
+YUI_COMPRESSOR_PATH = "~/Desktop/shrink/yuicompressor-2.4.6.jar"
+HTML_COMPRESSOR_PATH = "~/Desktop/shrink/htmlcompressor-1.5.2.jar"
+JS_PATTERN = /(js\/.*\.js)/i
+CSS_PATTERN = /(css\/.*\.css)/i
+UNCOMPRESSED_JS_PATTERN = /<!-- BEGIN: Uncompressed JS -->.*<!-- END: Uncompressed JS -->/m
+UNCOMPRESSED_CSS_PATTERN = /<!-- BEGIN: Uncompressed CSS -->.*<!-- END: Uncompressed CSS -->/m
+
+begin
+  index_file = File.open(ARGV[0], "r")
+rescue 
+  p "Usage: shrink inputfile.html outputfile.html"
+  exit 1
+end
+
+p "Starting compression..."
+
+index_file_contents = index_file.read
+index_file.close
+
+js_files = []
+css_files = []
+compressed_js = ""
+compressed_css = ""
+
+index_file_contents.each_line do |line|
+  js_matches = line.match(JS_PATTERN)
+  css_matches = line.match(CSS_PATTERN)
+  js_files << js_matches[1] if js_matches
+  css_files << css_matches[1] if css_matches
+end
+
+# compress js and css
+js_files.each do |js_file|
+  compressed_js += `java -jar #{YUI_COMPRESSOR_PATH} #{js_file}`
+end
+
+css_files.each do |css_file|
+  compressed_css += `java -jar #{YUI_COMPRESSOR_PATH} #{css_file}`
+end
+
+# insert compressed js and css inline
+index_file_contents = index_file_contents.gsub(UNCOMPRESSED_JS_PATTERN, "<script type=\"text/javascript\">#{compressed_js}</script>")
+index_file_contents = index_file_contents.gsub(UNCOMPRESSED_CSS_PATTERN, "<style type=\"text/css\">#{compressed_css}</style>")
+
+# write out to new file
+if ARGV[1]
+  new_file = "./" + ARGV[1]
+else 
+  new_file = "./compressed.html"
+end
+
+minified_index_file = File.new(new_file, "w")
+minified_index_file.write(index_file_contents)
+minified_index_file.close
+
+# minify html
+`java -jar #{HTML_COMPRESSOR_PATH} --remove-intertag-spaces --simple-doctype --type html -o index-min.html index-min.html`
+
+p "...done!"
+p "File saved to " + new_file
