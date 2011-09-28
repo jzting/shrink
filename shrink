@@ -46,17 +46,17 @@ index_file_contents = index_file_contents.gsub(UNCOMPRESSED_CSS_PATTERN, "<style
 
 # write out to new file
 if ARGV[1]
-  new_file = "./" + ARGV[1]
+  new_file = ARGV[1]
 else 
-  new_file = "./compressed.html"
+  new_file = "compressed.html"
 end
 
-minified_index_file = File.new(new_file, "w")
+minified_index_file = File.new("./" + new_file, "w")
 minified_index_file.write(index_file_contents)
 minified_index_file.close
 
 # minify html
-`java -jar #{HTML_COMPRESSOR_PATH} --remove-intertag-spaces --simple-doctype --type html -o index-min.html index-min.html`
+`java -jar #{HTML_COMPRESSOR_PATH} --remove-intertag-spaces --simple-doctype --type html -o #{new_file} #{new_file}`
 
 p "...done!"
 p "File saved to " + new_file
