@@ -2,7 +2,7 @@
   
 YUI_COMPRESSOR_PATH = "~/Desktop/shrink/yuicompressor-2.4.6.jar"
 HTML_COMPRESSOR_PATH = "~/Desktop/shrink/htmlcompressor-1.5.2.jar"
-JS_PATTERN = /(js\/.*\.js)/i
+JS_PATTERN = /<script src="(js\/.*\.js)"><\/script>/i
 CSS_PATTERN = /(css\/.*\.css)/i
 UNCOMPRESSED_JS_PATTERN = /<!-- BEGIN: Uncompressed JS -->.*<!-- END: Uncompressed JS -->/m
 UNCOMPRESSED_CSS_PATTERN = /<!-- BEGIN: Uncompressed CSS -->.*<!-- END: Uncompressed CSS -->/m
