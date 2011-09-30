@@ -1,7 +1,7 @@
 Shrink
 ======
 
-Given a single HTML file as input, Shrink will insert your JavaScript and CSS inline. Shrink uses YUI and HTML Compressor to compress your JS and HTML.
+Given a single HTML file as input, Shrink will insert any linked JavaScript and CSS inline. Shrink uses YUI and HTML Compressor to compress the JS, CSS, and HTML.
 
 Configuration
 -------------
@@ -30,3 +30,11 @@ Usage
         
 If no output file is given, it will write to compressed.html
 
+Caveats
+-------
+* Shrink looks for references to JS and CSS files in the whole document, not just within the comment tags.
+
+Future
+-------
+* Support compression of inline JS and CSS
+* Better error handling for external URLs
